@@ -6,12 +6,12 @@
 /*   By: pferrer- <pferrer-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 16:29:44 by pferrer-          #+#    #+#             */
-/*   Updated: 2024/04/18 19:38:25 by pferrer-         ###   ########.fr       */
+/*   Updated: 2024/05/03 21:40:51 by pferrer-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-
+/*
 char	*save_lecture(int fd)
 {
 	char	*lecture;
@@ -20,21 +20,41 @@ char	*save_lecture(int fd)
 	if (lecture == NULL)
 		return (NULL);
 	read(fd, lecture, 10);
-	lecture[10] = '\0';
 	return (lecture);
+}*/
+
+char	*save_lecture(int fd, char *reading)
+{
+	char	*lecture;
+	int		i;
+	int		z;
+
+	i = 0;
+	z = 0;
+	lecture = malloc(11 * sizeof(char));
+	if (lecture == NULL)
+		return (NULL);
+	reading = NULL;
+	while (newline_search(lecture) == 0)
+	{
+		z = read(fd, lecture, 10);
+		lecture[z] = '\0';
+		reading = join_string(reading, lecture);
+	}
+	return (reading);
 }
 
 char	*save_line(char *lecture)
 {
-	static int		i;
+	int		i;
 	char	*line;
 
 	i = 0;
-	while (lecture[i] && lecture[i] != '\n')
+	while (lecture[i] && lecture[i] != '\n' && lecture[i] != '\0')
 		i++;
 	if (lecture[i] == '\n')
 		i = i + 1;
-	line = malloc(i * sizeof(char));
+	line = malloc((i + 1) * sizeof(char));
 	if (line == NULL)
 		return (NULL);
 	line[i--] = '\0';
@@ -61,12 +81,13 @@ char	*save_line2(char *lecture, char *line)
 		z++;
 	if (lecture[i] == '\0')
 		return (NULL);
-	line2 = malloc((z - i) * sizeof(char));
+	line2 = malloc((z - i + 1) * sizeof(char));
 	if (line2 == NULL)
 		return (NULL);
 	z = 0;
 	while (lecture[i])
 		line2[z++] = lecture[i++];;
+	line2[z] = '\0';
 	return (line2);
 }
 /*
@@ -100,9 +121,10 @@ int main()
 {
 	int fd;
   fd = open("archivo.txt", O_RDONLY);
-    char *lecture = save_lecture(fd);
+  	char *line2 = NULL;
+    char *lecture = save_lecture(fd, line2);
 	char *line = save_line(lecture);
-	char *line2 = save_line2(lecture, line);
+	line2 = save_line2(lecture, line);
 	//char *getnextline = get_next_line(fd);
 
     // Imprimir la cadena leída

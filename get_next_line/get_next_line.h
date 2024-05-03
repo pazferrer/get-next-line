@@ -6,7 +6,7 @@
 /*   By: pferrer- <pferrer-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 16:09:25 by pferrer-          #+#    #+#             */
-/*   Updated: 2024/04/17 11:48:25 by pferrer-         ###   ########.fr       */
+/*   Updated: 2024/05/03 21:40:58 by pferrer-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,5 +19,8 @@
 # include <fcntl.h>
 
 char	*get_next_line(int fd);
+int		length_string(char *string);
+char	*join_string(char *string1, char *string2);
+int		newline_search(char *lecture);
 
 #endif
