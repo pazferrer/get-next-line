@@ -6,22 +6,11 @@
 /*   By: pferrer- <pferrer-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 16:29:44 by pferrer-          #+#    #+#             */
-/*   Updated: 2024/05/03 21:40:51 by pferrer-         ###   ########.fr       */
+/*   Updated: 2024/05/04 13:26:43 by pferrer-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-/*
-char	*save_lecture(int fd)
-{
-	char	*lecture;
-	
-	lecture = malloc(10 * sizeof(char));
-	if (lecture == NULL)
-		return (NULL);
-	read(fd, lecture, 10);
-	return (lecture);
-}*/
 
 char	*save_lecture(int fd, char *reading)
 {
@@ -41,6 +30,7 @@ char	*save_lecture(int fd, char *reading)
 		lecture[z] = '\0';
 		reading = join_string(reading, lecture);
 	}
+	printf("Lectura: %s\n", reading);
 	return (reading);
 }
 
@@ -63,6 +53,7 @@ char	*save_line(char *lecture)
 		line[i] = lecture[i];
 		i--;
 	}
+	printf("linea: %s\n", line);
 	return (line);
 }
 
@@ -88,13 +79,13 @@ char	*save_line2(char *lecture, char *line)
 	while (lecture[i])
 		line2[z++] = lecture[i++];;
 	line2[z] = '\0';
+	printf("linea2: %s\n", line2);
 	return (line2);
 }
-/*
+
 char	*get_next_line(int fd)
 {
 	int			i;
-	int			z;
 	char		*line;
 	char		*lecture;
 	static char	*line2;
@@ -102,36 +93,38 @@ char	*get_next_line(int fd)
 	i = 0;
 	if (fd == -1)
 		return (NULL);
-	lecture = save_lecture(fd);
+	if (line2 != NULL && line2[i])
+	{
+		lecture = save_lecture(fd, line2);
+		//printf("if: %s", line2);
+	}
+	else
+	{
+		line2 = NULL;
+		lecture = save_lecture(fd, line2);
+		//printf("else: %s", lecture);
+	}
 	line = save_line(lecture);
-	while ((save_line2(lecture, line)) == NULL)
-	{
-		line = get_next_line(fd);
-	}
-	if (line2 != NULL)
-	{
-		line = line2;
-		return (line);
-	}
+	line2 = save_line2(lecture, line);
 	return (line);
-}*/
+}
 
-
+/*
 int main() 
 {
 	int fd;
   fd = open("archivo.txt", O_RDONLY);
-  	char *line2 = NULL;
-    char *lecture = save_lecture(fd, line2);
-	char *line = save_line(lecture);
-	line2 = save_line2(lecture, line);
-	//char *getnextline = get_next_line(fd);
+  	//char *line2 = NULL;
+    //char *lecture = save_lecture(fd, line2);
+	//char *line = save_line(lecture);
+	//line2 = save_line2(lecture, line);
+	char *getnextline = get_next_line(fd);
 
     // Imprimir la cadena leída
-    printf("Lectura: %s\n", lecture);
-	printf("linea: %s\n", line);
-	printf("linea2: %s\n", line2);
-	//printf("get_next_line es: %s\n", getnextline);
+   //printf("Lectura: %s\n", lecture);
+	//printf("linea: %s\n", line);
+	//printf("linea2: %s\n", line2);
+	printf("get_next_line es: %s\n", getnextline);
 
     //free(lecture);
 	//free(line2);
@@ -139,5 +132,5 @@ int main()
 
     return 0;
  
-}
+}*/
 
