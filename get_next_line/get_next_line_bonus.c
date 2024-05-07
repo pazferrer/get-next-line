@@ -6,11 +6,11 @@
 /*   By: pferrer- <pferrer-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 16:29:44 by pferrer-          #+#    #+#             */
-/*   Updated: 2024/05/07 19:05:21 by pferrer-         ###   ########.fr       */
+/*   Updated: 2024/05/07 20:10:32 by pferrer-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*save_lecture(int fd, char *reading)
 {
@@ -28,7 +28,7 @@ char	*save_lecture(int fd, char *reading)
 		return (NULL);
 	}
 	lecture[0] = '\0';
-	while (newline_search(lecture) == 0)
+	while (newline_search(lecture, fd) == 0)
 	{
 		z = read(fd, lecture, BUFFER_SIZE);
 		if (z == -1)
