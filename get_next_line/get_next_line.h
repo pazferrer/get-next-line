@@ -6,7 +6,7 @@
 /*   By: pferrer- <pferrer-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 16:09:25 by pferrer-          #+#    #+#             */
-/*   Updated: 2024/05/07 19:20:45 by pferrer-         ###   ########.fr       */
+/*   Updated: 2024/05/10 18:38:10 by pferrer-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,6 @@ char	*get_next_line(int fd);
 int		length_string(char *string);
 char	*join_string(char *string1, char *string2);
 int		newline_search(char *lecture);
+char	*read_liberator(int z, char *lecture, char *reading);
 
 #endif

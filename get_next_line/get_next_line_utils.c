@@ -6,7 +6,7 @@
 /*   By: pferrer- <pferrer-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 18:36:33 by pferrer-          #+#    #+#             */
-/*   Updated: 2024/05/07 19:04:13 by pferrer-         ###   ########.fr       */
+/*   Updated: 2024/05/10 20:07:53 by pferrer-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,10 @@ char	*join_string(char *string1, char *string2)
 	i = length_string(string1) + length_string(string2);
 	joint = malloc((i + 1) * sizeof(char));
 	if (joint == NULL)
+	{
+		free(string1);
 		return (NULL);
+	}
 	j = 0;
 	while (string1 && string1[j])
 	{
@@ -46,6 +49,33 @@ char	*join_string(char *string1, char *string2)
 		joint[j++] = string2[y++];
 	joint[j] = '\0';
 	return (joint);
+}
+
+char	*read_liberator(int z, char *lecture, char *reading)
+{
+	if (z == -1)
+	{
+		free(lecture);
+		free(reading);
+		return (NULL);
+	}
+	if (z == 0)
+	{
+		free(lecture);
+		return (reading);
+	}
+	if (lecture == NULL)
+	{
+		free(reading);
+		return (NULL);
+	}
+	if (z == 2)
+	{
+		free(lecture);
+		return (NULL);
+	}
+	free(lecture);
+	return (reading);
 }
 
 int	newline_search(char *lecture)

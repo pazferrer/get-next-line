@@ -6,7 +6,7 @@
 /*   By: pferrer- <pferrer-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 16:29:44 by pferrer-          #+#    #+#             */
-/*   Updated: 2024/05/07 19:05:21 by pferrer-         ###   ########.fr       */
+/*   Updated: 2024/05/10 20:07:56 by pferrer-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,44 +16,28 @@ char	*save_lecture(int fd, char *reading)
 {
 	char	*lecture;
 	char	*tmp;
-	int		i;
 	int		z;
 
-	i = 0;
 	z = 0;
 	lecture = malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (lecture == NULL)
-	{
-		free(reading);
-		return (NULL);
-	}
+		return (read_liberator(1, lecture, reading));
 	lecture[0] = '\0';
 	while (newline_search(lecture) == 0)
 	{
 		z = read(fd, lecture, BUFFER_SIZE);
-		if (z == -1)
+		if (z == -1 || z == 0)
 		{
-			free(lecture);
-			free(reading);
-			return (NULL);
-		}
-		if (z == 0)
-		{
-			free(lecture);
-			return (reading);
+			return (read_liberator(z, lecture, reading));
 		}
 		lecture[z] = '\0';
 		tmp = join_string(reading, lecture);
 		if (tmp == NULL)
-		{
-			free(lecture);
-			return (NULL);
-		}
+			return (read_liberator(2, lecture, reading));
 		free(reading);
 		reading = tmp;
 	}
-	free(lecture);
-	return (reading);
+	return (read_liberator(1, lecture, reading));
 }
 
 char	*save_line(char *lecture)
@@ -68,7 +52,10 @@ char	*save_line(char *lecture)
 		i = i + 1;
 	line = malloc((i + 1) * sizeof(char));
 	if (line == NULL)
+	{
+		free(lecture);
 		return (NULL);
+	}
 	line[i--] = '\0';
 	while (i >= 0)
 	{
@@ -101,7 +88,7 @@ char	*save_line2(char *lecture, char *line)
 	}
 	z = 0;
 	while (lecture[i])
-		line2[z++] = lecture[i++];;
+		line2[z++] = lecture[i++];
 	line2[z] = '\0';
 	return (line2);
 }
@@ -123,17 +110,12 @@ char	*get_next_line(int fd)
 	line = save_line(lecture);
 	if (line == NULL)
 	{
-		free(lecture);
 		line2 = NULL;
 		return (NULL);
 	}
 	line2 = save_line2(lecture, line);
 	if (line2 == NULL && line == NULL && lecture == NULL)
-	{
-		free(line);
-		free(lecture);
-		return (NULL);
-	}
+		return (read_liberator(-1, line, lecture));
 	free(lecture);
 	return (line);
 }
@@ -142,7 +124,7 @@ char	*get_next_line(int fd)
 int main() 
 {
 	int		fd;
-	char	*lecture;
+	char	*lecture
 	char	*line;
 	char	*line2;
 	char	*getnextline;
